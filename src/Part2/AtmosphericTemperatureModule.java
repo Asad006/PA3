@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.concurrent.Semaphore;
 
 public class AtmosphericTemperatureModule {
-
+    static double computeTime = 0;
 
     public static void main(String[] args) {
         final int NUMBER_OF_THREADS = 8;
@@ -22,7 +22,7 @@ public class AtmosphericTemperatureModule {
 
         input.close();
 
-
+        final long startTime = System.currentTimeMillis();
         for (int i = 0; i < numberOfHours; i++) {
 
             DataModel dataModel = new DataModel();
@@ -44,19 +44,23 @@ public class AtmosphericTemperatureModule {
                     System.out.println(e);
                 }
             }
-            printReport(i,dataModel.maxList,dataModel.minList,dataModel.maxDifference,dataModel.intervalStart,dataModel.intervalEnd);
+            final long endTime = System.currentTimeMillis();
+            computeTime = (endTime - startTime) / 1000.0;
+
+            printReport(i, dataModel.maxList, dataModel.minList, dataModel.maxDifference, dataModel.intervalStart, dataModel.intervalEnd);
 
         }
-
+        System.out.println("Execution time: " + computeTime + " s");
     }
 
     private static void printReport(int i, PriorityQueue<Integer> maxList, PriorityQueue<Integer> minList, int maxDifference, int intervalStart, int intervalEnd) {
         System.out.println("******************************");
         System.out.println("Sensory Report On Hour: " + (i + 1));
+        System.out.println("------------------------------");
         System.out.println("Top 5  temperature: " + maxList);
         System.out.println("Min 5  temperature: " + minList);
-        System.out.printf("Largest temperature range difference of %dF was from %d to %d minute\n", maxDifference, intervalStart, intervalEnd);
-        System.out.println("******************************\n");
+        System.out.println("Largest temperature range difference of " + maxDifference + "F was from " + intervalStart + " to " + intervalEnd + " minute\n");
+        System.out.println("******************************\n\n");
     }
 }
 
@@ -91,7 +95,7 @@ class DataModel {
 
             //add temp to max list and keep 5 records.
             maxList.add(temp);
-            if (maxList.size() > 5){
+            if (maxList.size() > 5) {
                 maxList.poll();
             }
 

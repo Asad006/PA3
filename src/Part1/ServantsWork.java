@@ -42,7 +42,7 @@ public class ServantsWork extends Thread
         for (int i = 0; i < mainThread.numberOfThreads; i++)
             threadsArray.get(i).join();
 
-        System.out.println(thxCards + " Work done: thank you notes were written.");
+        System.out.println(thxCards + " Servants tasks are done: thank you notes are written.");
 
     }
 
@@ -65,8 +65,8 @@ public class ServantsWork extends Thread
         servantsWorkThread.runServants(servantsWorkThread);
 
         final long endTime = System.currentTimeMillis();
-        final long computeTime = endTime - startTime;
-        System.out.println("Execution time: " + computeTime + " ms");
+        final double computeTime = (endTime - startTime)/1000.0;
+        System.out.println("Execution time: " + computeTime + " s");
     }
 }
 
